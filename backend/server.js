@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 
 import userRoutes from './routes/user.route.js';
+import companyRoutes from './routes/seller.route.js';
 
 // Load env variables
 dotenv.config();
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 // --------- API ROUTES ----------
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/company', companyRoutes);
 
 // --------- DATABASE CONNECTION ----------
 mongoose
