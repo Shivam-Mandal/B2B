@@ -13,4 +13,7 @@ export const getComparison = (id) =>
 export const getSeller = (slug) =>
   API.get(`/seller/${slug}`);
 
+export const getRandomProducts = () => 
+  API.get("/v1/products/random");
+
 export default API;
