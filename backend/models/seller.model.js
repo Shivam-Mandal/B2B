@@ -14,14 +14,6 @@ const companySchema = new mongoose.Schema(
       required: true,
     },
 
-    subdomain: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      index: true,
-    },
-
     businessType: {
       type: String,
       required: true,
@@ -40,7 +32,7 @@ const companySchema = new mongoose.Schema(
 
     establishedYear: Number,
 
-    website: String,
+    subDomain: String,
 
     logo: String,
 

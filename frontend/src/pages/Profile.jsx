@@ -49,7 +49,7 @@ export default function Profile() {
         };
 
         fetchProfileData();
-    }, [token]);
+    }, [token,user?.onboardingCompleted]);
 
     if (loading) {
         return (
@@ -136,7 +136,7 @@ export default function Profile() {
                                 rel="noopener noreferrer"
                                 className="text-blue-600 hover:underline"
                             >
-                                http://localhost:5173/store/{company.companyName
+                                http://localhost:5173/store/{company.subDomain
                                     .toLowerCase()
                                     .replace(/\s+/g, "-")}
                             </Link>
