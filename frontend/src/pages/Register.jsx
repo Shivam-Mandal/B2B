@@ -69,7 +69,7 @@ export default function Register() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/v1/users/register",
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/register`,
         {
           name: form.name,
           email: form.email,
