@@ -16,7 +16,7 @@ export default function Profile() {
       try {
         // ✅ 1️⃣ FETCH USER
         const userRes = await axios.get(
-          "http://localhost:8080/api/v1/users/me",
+          `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ export default function Profile() {
         // ✅ 2️⃣ FETCH COMPANY ONLY IF ONBOARDING COMPLETED
         if (fetchedUser.onboardingCompleted) {
           const companyRes = await axios.get(
-            "http://localhost:8080/api/v1/company/me",
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/company/me`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
