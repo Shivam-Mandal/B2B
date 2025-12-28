@@ -1,8 +1,103 @@
+// import { useState } from "react";
+// import axios from "axios";
+// import { useNavigate ,Link} from "react-router-dom";
+// import { useAuth } from "../context/AuthContext";
+
+
+// export default function Login() {
+//   const navigate = useNavigate();
+//   const { login } = useAuth();
+
+//   const [form, setForm] = useState({
+//     email: "",
+//     password: "",
+//   });
+
+//   const [loading, setLoading] = useState(false);
+//   const [serverError, setServerError] = useState("");
+
+//   const handleChange = (e) => {
+//     setForm({ ...form, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setServerError("");
+
+//     try {
+//       const res = await axios.post(
+//         `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/login`,
+//         form
+//       );
+
+//       // 🔥 IMPORTANT LINE
+//       login(res.data);
+
+//       navigate("/");
+
+//     } catch (err) {
+//       setServerError(
+//         err.response?.data?.message || "Login failed"
+//       );
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gray-50">
+//       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+
+//         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+
+//         {serverError && (
+//           <p className="text-red-600 text-center mb-3">{serverError}</p>
+//         )}
+
+//         <form onSubmit={handleSubmit} className="space-y-4">
+//           <input
+//             type="email"
+//             name="email"
+//             placeholder="Email"
+//             className="w-full border p-3 rounded"
+//             onChange={handleChange}
+//             required
+//           />
+
+//           <input
+//             type="password"
+//             name="password"
+//             placeholder="Password"
+//             className="w-full border p-3 rounded"
+//             onChange={handleChange}
+//             required
+//           />
+
+//           <button
+//             type="submit"
+//             disabled={loading}
+//             className="w-full bg-blue-600 text-white py-3 rounded"
+//           >
+//             {loading ? "Logging in..." : "Login"}
+//           </button>
+//         </form>
+
+//         {/* ✅ REGISTER LINK RESTORED */}
+//         <p className="text-sm text-center mt-4">
+//           Don’t have an account?{" "}
+//           <Link to="/register" className="text-blue-600 hover:underline">
+//             Register
+//           </Link>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate ,Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
 
 export default function Login() {
   const navigate = useNavigate();
@@ -31,9 +126,7 @@ export default function Login() {
         form
       );
 
-      // 🔥 IMPORTANT LINE
       login(res.data);
-
       navigate("/");
 
     } catch (err) {
@@ -46,50 +139,110 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
+      <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
 
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">
+            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Welcome Back
+            </span>
+          </h2>
+          <p className="text-gray-600">Sign in to your account</p>
+        </div>
 
+        {/* Error Message */}
         {serverError && (
-          <p className="text-red-600 text-center mb-3">{serverError}</p>
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+            <svg className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-red-800 text-sm">{serverError}</p>
+          </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="w-full border p-3 rounded"
-            onChange={handleChange}
-            required
-          />
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          
+          {/* Email Input */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Email Address
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                </svg>
+              </div>
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                className="w-full border-2 border-gray-300 pl-10 pr-4 py-3 rounded-xl focus:border-blue-500 focus:outline-none transition-colors"
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="w-full border p-3 rounded"
-            onChange={handleChange}
-            required
-          />
+          {/* Password Input */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                className="w-full border-2 border-gray-300 pl-10 pr-4 py-3 rounded-xl focus:border-blue-500 focus:outline-none transition-colors"
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? (
+              <>
+                <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Logging in...</span>
+              </>
+            ) : (
+              <>
+                <span>Login</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </>
+            )}
           </button>
         </form>
 
-        {/* ✅ REGISTER LINK RESTORED */}
-        <p className="text-sm text-center mt-4">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register
-          </Link>
-        </p>
+        {/* Register Link */}
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <p className="text-sm text-center text-gray-600">
+            Don't have an account?{" "}
+            <Link to="/register" className="font-semibold text-blue-600 hover:text-blue-700 transition-colors">
+              Create Account
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

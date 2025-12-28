@@ -16,7 +16,7 @@ export const upsertCompany = async (req, res) => {
       gstNumber,
       address,
       establishedYear,
-      website,
+      subDomain,
       logo,
     } = req.body;
 
@@ -42,7 +42,7 @@ export const upsertCompany = async (req, res) => {
         gstNumber,
         address,
         establishedYear,
-        website,
+        subDomain,
         logo,
       },
       {
