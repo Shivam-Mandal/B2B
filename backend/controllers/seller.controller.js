@@ -1,6 +1,6 @@
 
 import Company from '../models/seller.model.js';
-import User from '../models/user.mode
+import User from '../models/user.model.js';
 
 
 export const upsertCompany = async (req, res) => {
