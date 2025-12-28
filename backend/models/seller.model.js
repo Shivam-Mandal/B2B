@@ -32,7 +32,11 @@ const companySchema = new mongoose.Schema(
 
     establishedYear: Number,
 
-    subDomain: String,
+    subDomain: {
+      type: String,
+      required: true,
+      unique: true,
+    },
 
     logo: String,
 
