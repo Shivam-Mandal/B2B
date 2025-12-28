@@ -7,7 +7,7 @@ export const products = [
     image: "https://via.placeholder.com/200"
   },
   {
-    _id: "p2",
+    _id: "p22",
     productName: "Samsung Galaxy S23",
     category: "Mobile",
     description: "Flagship Samsung phone",
