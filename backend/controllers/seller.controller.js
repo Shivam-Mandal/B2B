@@ -1,30 +1,51 @@
-import Company from '../models/seller.model.js';
-import User from '../models/user.model.js';
 
-/**
- * 🏢 CREATE / UPDATE COMPANY (SELLER ONBOARDING)
- * POST /api/v1/company
- */
+import Company from '../models/seller.model.js';
+import User from '../models/user.mode
+
+
 export const upsertCompany = async (req, res) => {
   try {
     const userId = req.user.id;
-    console.log(userId);
-    
 
     const {
       companyName,
       businessType,
       description,
       gstNumber,
+      subdomain,
       address,
       establishedYear,
       website,
       logo,
     } = req.body;
 
-    if (!companyName || !businessType || !address?.city || !address?.state) {
+    if (
+      !companyName ||
+      !businessType ||
+      !subdomain ||
+      !address?.city ||
+      !address?.state
+    ) {
       return res.status(400).json({
-        message: 'Company name, business type and address are required',
+        message:
+          "Company name, business type, subdomain and address are required",
+      });
+    }
+
+    const normalizedSubdomain = subdomain
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-");
+
+    // Check subdomain uniqueness
+    const existingSubdomain = await Company.findOne({
+      subdomain: normalizedSubdomain,
+      owner: { $ne: userId }, 
+    });
+
+    if (existingSubdomain) {
+      return res.status(409).json({
+        message: "Subdomain already taken. Choose another one.",
       });
     }
       await User.findByIdAndUpdate(userId, {
@@ -34,6 +55,7 @@ export const upsertCompany = async (req, res) => {
     });
 
 
+    // Upsert company
     const company = await Company.findOneAndUpdate(
       { owner: userId },
       {
@@ -42,6 +64,7 @@ export const upsertCompany = async (req, res) => {
         businessType,
         description,
         gstNumber,
+        subdomain: normalizedSubdomain,
         address,
         establishedYear,
         website,
@@ -49,22 +72,32 @@ export const upsertCompany = async (req, res) => {
       },
       {
         new: true,
-        upsert: true, // create if not exists
+        upsert: true,
+        runValidators: true,
       }
     );
 
     res.status(200).json({
-      message: 'Company details saved successfully',
+      message: "Company details saved successfully",
       company,
     });
   } catch (err) {
-    console.error('COMPANY UPSERT ERROR:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error("COMPANY UPSERT ERROR:", err);
+
+    // Handle duplicate key error
+    if (err.code === 11000) {
+      return res.status(409).json({
+        message: "Subdomain already exists",
+      });
+    }
+
+    res.status(500).json({ message: "Server error" });
   }
 };
 
+
 /**
- * 📄 GET LOGGED-IN SELLER COMPANY
+ * GET LOGGED-IN SELLER COMPANY
  * GET /api/v1/company/me
  */
 export const getMyCompany = async (req, res) => {

@@ -14,6 +14,14 @@ const companySchema = new mongoose.Schema(
       required: true,
     },
 
+    subdomain: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      index: true,
+    },
+
     businessType: {
       type: String,
       required: true,

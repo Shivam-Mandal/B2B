@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import userRoutes from './routes/user.route.js';
 import companyRoutes from './routes/seller.route.js';
+import productRoutes from './routes/product.route.js';
 
 // Load env variables
 dotenv.config();
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 // --------- API ROUTES ----------
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/company', companyRoutes);
+app.use('/api/v1/products', productRoutes);
 
 // --------- DATABASE CONNECTION ----------
 mongoose
