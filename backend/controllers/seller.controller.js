@@ -1,4 +1,7 @@
-import Company from "../models/seller.model.js";
+
+import Company from '../models/seller.model.js';
+import User from '../models/user.mode
+
 
 export const upsertCompany = async (req, res) => {
   try {
@@ -45,6 +48,12 @@ export const upsertCompany = async (req, res) => {
         message: "Subdomain already taken. Choose another one.",
       });
     }
+      await User.findByIdAndUpdate(userId, {
+      role: "seller",
+      isSeller: true,
+      isOnboardingCompleted: true,
+    });
+
 
     // Upsert company
     const company = await Company.findOneAndUpdate(
@@ -96,18 +105,21 @@ export const getMyCompany = async (req, res) => {
     const userId = req.user.id;
 
     const company = await Company.findOne({ owner: userId }).populate(
-      'owner',
-      'name email role'
+      "owner",
+      "name email role"
     );
 
     if (!company) {
-      return res.status(404).json({ message: 'Company not found' });
+      return res.status(404).json({ message: "Company not found" });
     }
 
-    res.json(company);
+    // ✅ FIX: wrap company
+    res.status(200).json({
+      company,
+    });
   } catch (err) {
-    console.error('GET COMPANY ERROR:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error("GET COMPANY ERROR:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

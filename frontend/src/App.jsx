@@ -7,7 +7,8 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import SellerDashboard from "./pages/SellerDashboard";
-
+import BecomeSeller from "./pages/BeomeSeller";
+import Profile from "./pages/Profile";
 
 export default function App() {
   return (
@@ -21,6 +22,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/seller/dashboard" element={<SellerDashboard />} />
+        <Route path="/become-seller" element={<BecomeSeller />} />   
+        <Route path="/profile" element={<Profile />} /> 
 
       </Routes>
     </BrowserRouter>
