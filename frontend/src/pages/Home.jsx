@@ -1,6 +1,24 @@
 import SearchBar from "../components/SearchBar";
+// import ProductCard from "../components/ProductCard";
+import { useState, useEffect } from "react";
+// import { getRandomProducts } from "../services/api";
+import FeaturedProducts from "./FeaturedProducts";
 
 export default function Home() {
+  // const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const res = await getRandomProducts();
+  //       setFeaturedProducts(res.data.data || []);
+  //     } catch (err) {
+  //       console.error("Failed to fetch featured products", err);
+  //     }
+  //   };
+  //   fetchProducts();
+  // }, []);
+
   return (
     <div className="px-6">
       
@@ -33,6 +51,26 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Featured Products */}
+      {/* <section className="mt-16">
+        <h2 className="text-2xl font-semibold mb-6">Featured Products</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredProducts.map(product => (
+            <ProductCard
+              key={product._id}
+              product={{
+                ...product,
+                productName: product.name,
+                image: product.images?.[0]?.url
+              }}
+            />
+          ))}
+        </div>
+      </section> */}
+      
+      <FeaturedProducts />
     </div>
   );
 }
