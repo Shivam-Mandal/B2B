@@ -29,9 +29,15 @@ export const createProduct = async (req, res) => {
       });
     }
 
+    const images = req.files?.map(file => ({
+      url: file.path,        
+      public_id: file.filename,
+    })) || [];
+
     const product = await Product.create({
       ...req.body,
       sellerCompany: company._id,
+      images
     });
 
     res.status(201).json({
