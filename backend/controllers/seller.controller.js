@@ -8,7 +8,6 @@ import User from '../models/user.model.js';
 export const upsertCompany = async (req, res) => {
   try {
     const userId = req.user.id;
-    console.log(userId);
     
 
     const {
