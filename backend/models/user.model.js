@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
       default: 'buyer',
     },
 
-    isVerified: {
+    isSeller: {
       type: Boolean,
       default: false,
     },

@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import express from 'express';
+import cors from 'cors';
 
 import userRoutes from './routes/user.route.js';
 import companyRoutes from './routes/seller.route.js';
@@ -15,7 +16,12 @@ const MONGO_URI = process.env.MONGO_URI;
 // --------- GLOBAL MIDDLEWARES ----------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // React dev server
+    credentials: true,
+  })
+);
 // --------- HEALTH CHECK ----------
 app.get('/', (req, res) => {
   res.send('🚀 B2B IndiaMART Clone API is running');

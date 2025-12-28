@@ -1,4 +1,5 @@
 import Company from '../models/seller.model.js';
+import User from '../models/user.model.js';
 
 /**
  * 🏢 CREATE / UPDATE COMPANY (SELLER ONBOARDING)
@@ -26,6 +27,12 @@ export const upsertCompany = async (req, res) => {
         message: 'Company name, business type and address are required',
       });
     }
+      await User.findByIdAndUpdate(userId, {
+      role: "seller",
+      isSeller: true,
+      isOnboardingCompleted: true,
+    });
+
 
     const company = await Company.findOneAndUpdate(
       { owner: userId },
@@ -65,18 +72,21 @@ export const getMyCompany = async (req, res) => {
     const userId = req.user.id;
 
     const company = await Company.findOne({ owner: userId }).populate(
-      'owner',
-      'name email role'
+      "owner",
+      "name email role"
     );
 
     if (!company) {
-      return res.status(404).json({ message: 'Company not found' });
+      return res.status(404).json({ message: "Company not found" });
     }
 
-    res.json(company);
+    // ✅ FIX: wrap company
+    res.status(200).json({
+      company,
+    });
   } catch (err) {
-    console.error('GET COMPANY ERROR:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error("GET COMPANY ERROR:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
