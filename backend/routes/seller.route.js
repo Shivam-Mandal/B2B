@@ -19,7 +19,7 @@ const router = express.Router();
  * Create or Update company (Seller onboarding)
  * POST /api/v1/company
  */
-router.post('/', requireAuth, isSeller, upsertCompany);
+router.post('/', requireAuth, upsertCompany);
 
 /**
  * Get logged-in seller's company
