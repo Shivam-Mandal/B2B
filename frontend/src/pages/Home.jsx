@@ -1,8 +1,6 @@
 import SearchBar from "../components/SearchBar";
 import HeroCarousel from "../components/HeroCarousel";
-import { useState, useEffect } from "react";
 import FeaturedProducts from "./FeaturedProducts";
-import Footer from "../components/Footer";
 
 export default function Home() {
 
@@ -71,7 +69,7 @@ export default function Home() {
 
       <FeaturedProducts />
 
-      <Footer/>
+  
     </div>
   );
 }
