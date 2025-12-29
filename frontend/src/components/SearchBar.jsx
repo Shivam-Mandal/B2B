@@ -19,7 +19,7 @@ export default function SearchBar() {
       />
       <button
         onClick={search}
-        className="bg-blue-600 px-6 text-white font-semibold"
+        className="bg-blue-600 px-6 text-white font-semibold hover:bg-blue-800"
       >
         Search
       </button>

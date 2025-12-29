@@ -23,19 +23,29 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-      
-      {/* Logo */}
-      <Link to="/" className="text-xl font-bold text-blue-600">
-        PriceCompare
-      </Link>
+  <nav className="bg-white shadow-md px-6 h-20 flex justify-between items-center">
+  
+  {/* Logo */}
+  <Link to="/" className="flex items-center">
+    <img
+      src="/logo/l_white.png"
+      alt="Price Compare Logo"
+      className="h-25 w-auto object-contain"
+    />
+  </Link>
+
 
       <div className="flex items-center gap-4">
 
         {/* NOT LOGGED IN */}
         {!isLoggedIn && (
           <Link to="/login" className="hover:text-blue-600">
-            Login
+            <img
+      src="/logo/avatar.png"
+      alt="Price Compare Logo"
+      className="h-10 w-auto object-contain"
+    />
+  Login
           </Link>
         )}
 
