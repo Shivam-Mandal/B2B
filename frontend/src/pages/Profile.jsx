@@ -212,7 +212,7 @@ export default function Profile() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+            <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-slate-600 font-medium">Loading profile...</p>
@@ -223,7 +223,7 @@ export default function Profile() {
 
     if (!user) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+            <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100">
                 <div className="bg-white rounded-lg shadow-lg p-8 text-center">
                     <p className="text-slate-700 text-lg">User not found</p>
                 </div>
@@ -232,7 +232,7 @@ export default function Profile() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
@@ -245,7 +245,7 @@ export default function Profile() {
                     <div className="lg:col-span-1">
                         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                             {/* Profile Header */}
-                            <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
+                            <div className="bg-linear-to-r from-blue-600 to-blue-700 p-6 text-white">
                                 <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white/30">
                                     <User className="w-10 h-10" />
                                 </div>

@@ -21,7 +21,7 @@ export default function FeaturedProducts() {
   }, []);
 
   return (
-    <section className="bg-gray-50 py-14">
+    <section className="bg-gray-50 py-14 mt-5">
       <div className="max-w-cover-full mx-auto px-4 sm:px-6">
 
         {/* Section Header */}

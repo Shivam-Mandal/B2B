@@ -28,46 +28,50 @@ export default function HeroCarousel() {
 
   return (
     <div className="relative w-full mt-14">
-      {/* Slide */}
-      <div className="relative h-64 md:h-72  bg-white  flex items-center justify-center">
+      {/* Carousel Box */}
+      <div className="relative h-64 md:h-72 bg-white border border-gray-200 overflow-hidden">
+
+        {/* Slide */}
         <img
           src={slides[current].image}
           alt="carousel-banner"
-          className="h-full w-full object-contain "
+          className="h-full w-full object-contain"
         />
-      </div>
 
-      <button
-  onClick={prevSlide}
-  className="absolute left-0 top-1/2 -translate-y-1/2 
-             h-24 w-10 bg-white shadow-md 
-             flex items-center justify-center 
-             rounded-r-lg hover:bg-gray-100"
->
-  <span className="text-2xl text-gray-600">‹</span>
-</button>
+        {/* Left Control */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-0 top-1/2 -translate-y-1/2 
+                     h-24 w-10 bg-white shadow-md 
+                     flex items-center justify-center 
+                     rounded-r-lg hover:bg-gray-100"
+        >
+          <span className="text-2xl text-gray-600">‹</span>
+        </button>
 
-{/* Right Control */}
-<button
-  onClick={nextSlide}
-  className="absolute right-0 top-1/2 -translate-y-1/2 
-             h-24 w-10 bg-white shadow-md 
-             flex items-center justify-center 
-             rounded-l-lg hover:bg-gray-100"
->
-  <span className="text-2xl text-gray-600">›</span>
-</button>
+        {/* Right Control */}
+        <button
+          onClick={nextSlide}
+          className="absolute right-0 top-1/2 -translate-y-1/2 
+                     h-24 w-10 bg-white shadow-md 
+                     flex items-center justify-center 
+                     rounded-l-lg hover:bg-gray-100"
+        >
+          <span className="text-2xl text-gray-600">›</span>
+        </button>
 
-      {/* Dots */}
-      <div className="flex justify-center mt-4 gap-2">
-        {slides.map((_, index) => (
-          <span
-            key={index}
-            className={`h-2 w-6 rounded-full ${
-              index === current ? "bg-blue-600" : "bg-gray-300"
-            }`}
-          />
-        ))}
+        {/* Dots — SAME STYLING, ONLY POSITION CHANGED */}
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          {slides.map((_, index) => (
+            <span
+              key={index}
+              className={`h-2 w-6 rounded-full ${
+                index === current ? "bg-blue-600" : "bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+
       </div>
     </div>
   );
