@@ -2,13 +2,15 @@ import Product from "../models/product.model.js";
 import Company from "../models/seller.model.js";
 
 /**
- * SELLER: Create Product
+ * ================================
+ * SELLER: CREATE PRODUCT
+ * ================================
  */
 export const createProduct = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.id; // from JWT
 
-    // Get seller company
+    // 🔒 Fetch seller company
     const company = await Company.findOne({ owner: userId });
     if (!company) {
       return res.status(403).json({
@@ -17,11 +19,12 @@ export const createProduct = async (req, res) => {
       });
     }
 
-    // Check if a product with the same name already exists for this seller
+    // 🚫 Prevent duplicate product name per company
     const existingProduct = await Product.findOne({
       name: req.body.name,
       sellerCompany: company._id,
     });
+
     if (existingProduct) {
       return res.status(409).json({
         success: false,
@@ -29,15 +32,19 @@ export const createProduct = async (req, res) => {
       });
     }
 
-    const images = req.files?.map(file => ({
-      url: file.path,        
-      public_id: file.filename,
-    })) || [];
+    // 🖼️ Handle images
+    const images =
+      req.files?.map((file) => ({
+        url: file.path,
+        alt: req.body.name,
+      })) || [];
 
+    // ✅ CREATE PRODUCT (FIXED)
     const product = await Product.create({
       ...req.body,
-      sellerCompany: company._id,
-      images
+      owner: userId,              // 🔥 REQUIRED FIX
+      sellerCompany: company._id, // 🔥 REQUIRED
+      images,
     });
 
     res.status(201).json({
@@ -48,9 +55,11 @@ export const createProduct = async (req, res) => {
   } catch (error) {
     if (error.code === 11000) {
       return res.status(409).json({
-        message: "Product with same name already exists"
+        success: false,
+        message: "Duplicate key error",
       });
     }
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -58,7 +67,11 @@ export const createProduct = async (req, res) => {
   }
 };
 
-/* SELLER: Get my products */
+/**
+ * ================================
+ * SELLER: UPDATE PRODUCT
+ * ================================
+ */
 export const updateProduct = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -68,12 +81,13 @@ export const updateProduct = async (req, res) => {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    const { sellerCompany, ...safeBody } = req.body;
+    // ❌ Prevent sellerCompany or owner tampering
+    const { owner, sellerCompany, ...safeBody } = req.body;
 
     const product = await Product.findOneAndUpdate(
       { _id: req.params.id, sellerCompany: company._id },
       safeBody,
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     if (!product) {
@@ -95,7 +109,11 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-/* SELLER: Get all products of logged-in seller */
+/**
+ * ================================
+ * SELLER: DELETE PRODUCT (SOFT)
+ * ================================
+ */
 export const deleteProduct = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -130,7 +148,11 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
-/* SELLER: Get all products of logged-in seller */
+/**
+ * ================================
+ * SELLER: GET MY PRODUCTS
+ * ================================
+ */
 export const getSellerProducts = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -142,7 +164,7 @@ export const getSellerProducts = async (req, res) => {
 
     const products = await Product.find({
       sellerCompany: company._id,
-    });
+    }).sort("-createdAt");
 
     res.json({
       success: true,
@@ -157,7 +179,11 @@ export const getSellerProducts = async (req, res) => {
   }
 };
 
-/* BUYER: Get random products */
+/**
+ * ================================
+ * BUYER: RANDOM PRODUCTS
+ * ================================
+ */
 export const getRandomProducts = async (req, res) => {
   try {
     const limit = Number(req.query.limit) || 12;
@@ -180,8 +206,11 @@ export const getRandomProducts = async (req, res) => {
   }
 };
 
-
-/* BUYER: Get products by category */
+/**
+ * ================================
+ * BUYER: PRODUCTS BY CATEGORY
+ * ================================
+ */
 export const getProductsByCategory = async (req, res) => {
   try {
     const { category } = req.params;
@@ -204,8 +233,11 @@ export const getProductsByCategory = async (req, res) => {
   }
 };
 
-
-/* BUYER: Filter & search products */
+/**
+ * ================================
+ * BUYER: FILTER & SEARCH PRODUCTS
+ * ================================
+ */
 export const filterProducts = async (req, res) => {
   try {
     const {
@@ -214,7 +246,6 @@ export const filterProducts = async (req, res) => {
       minPrice,
       maxPrice,
       tags,
-      city,
       sort = "-createdAt",
       page = 1,
       limit = 10,
@@ -223,7 +254,6 @@ export const filterProducts = async (req, res) => {
     const query = { isActive: true };
 
     if (category) query.category = category;
-    if (city) query["sellerCompany.address.city"] = city;
 
     if (minPrice || maxPrice) {
       query.price = {};
@@ -264,17 +294,68 @@ export const filterProducts = async (req, res) => {
   }
 };
 
+/**
+ * ================================
+ * BUYER: REDIRECT TO SELLER STORE
+ * ================================
+ */
 export const redirectToSeller = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate("sellerCompany", "subdomain");
+    const product = await Product.findById(req.params.id).populate(
+      "sellerCompany",
+      "subdomain"
+    );
+
     if (!product || !product.sellerCompany) {
-      return res.status(404).json({ message: "Product or seller not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Product or seller not found",
+      });
     }
-    const subdomain = product.sellerCompany.subdomain;
-    const redirectUrl = `https://${subdomain}.yourapp.com/product/${product._id}`;
+
+    const redirectUrl = `https://${product.sellerCompany.subdomain}.yourapp.com/product/${product._id}`;
     res.redirect(redirectUrl);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
+/**
+ * ================================
+ * ADMIN / INTERNAL: GET PRODUCTS BY OWNER ID
+ * ================================
+ * @route   GET /api/v1/products/owner/:ownerId
+ * @access  Protected (Admin or Internal use)
+ */
+export const getProductsByOwner  = async (req, res) => {
+  try {
+    // 🔑 comes from JWT
+    const ownerId = req.user.id;
+    // console.log("Owner ID:", ownerId);
 
+    if (!ownerId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: owner not found",
+      });
+    }
+
+    const products = await Product.find({
+      owner: ownerId,
+      isActive: true,
+    }).sort("-createdAt");
+
+    res.json({
+      success: true,
+      count: products.length,
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

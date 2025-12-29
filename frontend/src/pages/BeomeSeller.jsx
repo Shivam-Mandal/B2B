@@ -230,7 +230,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function BecomeSeller() {
   const navigate = useNavigate();
-  const { token, user, login } = useAuth();
+  const { token, user, login,logout } = useAuth();
 
   const [company, setCompany] = useState({
     companyName: "",
@@ -324,8 +324,8 @@ export default function BecomeSeller() {
         token,
         user: { ...user, role: "seller" },
       });
-
-      navigate("/");
+      logout();
+      navigate("/login");
 
     } catch (err) {
       setServerError(
