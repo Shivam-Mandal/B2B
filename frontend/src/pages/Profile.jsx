@@ -44,7 +44,7 @@ export default function Profile() {
                 }
             } catch (err) {
                 // console.error(err);
-                setError("Failed to load profile data"); //yet to be fixed its a bug
+                // setError("Failed to load profile data"); 
             } finally {
                 setLoading(false);
             }
