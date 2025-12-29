@@ -1,8 +1,9 @@
 
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { loginUser } from "../services/auth.api";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -27,11 +28,7 @@ export default function Login() {
     setServerError("");
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/login`,
-        form
-      );
-
+      const res = await loginUser(form);
       login(res.data);
       navigate("/");
 

@@ -1,10 +1,10 @@
 
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Search, ShoppingCart, Menu, X, MapPin, Package, Filter, ChevronDown, Star } from "lucide-react";
+import { getOwnerProducts } from "../services/auth.api";
 
 export default function SellerStore() {
   const { token } = useAuth();
@@ -43,14 +43,7 @@ export default function SellerStore() {
     if (!token) return;
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/v1/products/owner`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await getOwnerProducts();
 
         if (Array.isArray(res.data.data)) {
           setProducts(res.data.data);

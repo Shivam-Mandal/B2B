@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import {registerUser} from "../services/auth.api";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -69,17 +69,13 @@ export default function Register() {
     setServerError("");
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/register`,
-        {
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          password: form.password,
-          role: form.role,
-        }
-      );
-
+      const res = await registerUser({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
+        role: form.role,
+      });
       login(res.data);
 
       if (res.data.user.role === "seller") {
