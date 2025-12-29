@@ -1,9 +1,9 @@
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { Building2, Mail, Phone, User, CheckCircle, ExternalLink, FileText, Shield } from "lucide-react";
+import { getCurrentUser,getMyCompany } from "../services/auth.api";
 
 export default function Profile() {
     const { token } = useAuth();
@@ -16,30 +16,14 @@ export default function Profile() {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                // ✅ 1️⃣ FETCH USER
-                const userRes = await axios.get(
-                    `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/me`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
+                const userRes = await getCurrentUser();
 
                 const fetchedUser = userRes.data;
                 setUser(fetchedUser);
 
                 // ✅ 2️⃣ FETCH COMPANY ONLY IF ONBOARDING COMPLETED
                 if (fetchedUser.onboardingCompleted) {
-                    const companyRes = await axios.get(
-                        `${import.meta.env.VITE_API_BASE_URL}/api/v1/company/me`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-
+                    const companyRes = await getMyCompany();
                     setCompany(companyRes.data.company);
                 }
             } catch (err) {
