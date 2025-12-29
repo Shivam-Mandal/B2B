@@ -10,6 +10,7 @@ import SellerDashboard from "./pages/SellerDashboard";
 import BecomeSeller from "./pages/BeomeSeller";
 import Profile from "./pages/Profile";
 import SellerStore from "./pages/SellerStore";
+import Footer from "./components/Footer";
 
 
 
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/store/:slug" element={<SellerStore />} />
 
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

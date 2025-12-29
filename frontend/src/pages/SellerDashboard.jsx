@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardHome from "./dashboard/DashboardHome";
 import AddProduct from "./dashboard/AddProduct";
 import MyProducts from "./dashboard/MyProducts";
 
 export default function SellerDashboard() {
   const [active, setActive] = useState("home");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [active]);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -36,7 +40,7 @@ export default function SellerDashboard() {
 
       {/* Content Area */}
       <main className="flex-1 p-8">
-        {active === "home" && <DashboardHome />}
+        {active === "home" && <DashboardHome onQuickAction={setActive} />}
         {active === "add" && <AddProduct />}
         {active === "products" && <MyProducts />}
       </main>
