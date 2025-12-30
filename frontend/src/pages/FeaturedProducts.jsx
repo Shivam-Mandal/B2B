@@ -85,7 +85,8 @@ export default function FeaturedProducts() {
                     product={{
                       ...product,
                       productName: product.name,
-                      image: product.images?.[0]?.url
+                      image: product.images?.[0]?.url,
+                      price: product.price,
                     }}
                   />
                 </div>
