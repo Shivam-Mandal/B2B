@@ -21,54 +21,74 @@ export default function FeaturedProducts() {
   }, []);
 
   return (
-    <section className="bg-gray-50 py-14 mt-5">
-      <div className="max-w-cover-full mx-auto px-4 sm:px-6">
+    <section className="relative py-16 mt-10 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* Section Header */}
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-            Featured Products
-          </h2>
+        {/* 🔷 Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Featured Products
+            </h2>
+            <p className="text-gray-500 mt-2 max-w-md">
+              Popular products selected for better price comparison
+            </p>
+          </div>
 
-          <span className="text-sm text-gray-500">
-            Handpicked for you
+          <span className="mt-4 md:mt-0 text-sm text-blue-600 font-medium">
+            Updated daily
           </span>
         </div>
 
-        {/* Loading State */}
+        {/* ⏳ Loading */}
         {loading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="h-64 bg-gray-200 rounded-lg animate-pulse"
+                className="h-80 rounded-xl bg-gray-200 animate-pulse"
               />
             ))}
           </div>
         )}
 
-        {/* Empty State */}
+        {/* ❌ Empty */}
         {!loading && featuredProducts.length === 0 && (
           <p className="text-center text-gray-500">
             No featured products available
           </p>
         )}
 
-        {/* Product Grid */}
+        {/* ✅ Featured Grid */}
         {!loading && featuredProducts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             {featuredProducts.map(product => (
               <div
                 key={product._id}
-                className="transform transition hover:-translate-y-1 hover:shadow-lg"
+                className="
+                  relative rounded-xl
+                  border border-gray-200
+                  hover:border-blue-400
+                  hover:shadow-xl
+                  transition-all duration-300
+                  bg-gradient-to-b from-white to-gray-50
+                "
               >
-                <ProductCard
-                  product={{
-                    ...product,
-                    productName: product.name,
-                    image: product.images?.[0]?.url
-                  }}
-                />
+                {/* Featured Tag */}
+                <div className="absolute -top-3 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+                  FEATURED
+                </div>
+
+                {/* Card */}
+                <div className="p-2">
+                  <ProductCard
+                    product={{
+                      ...product,
+                      productName: product.name,
+                      image: product.images?.[0]?.url
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
