@@ -87,6 +87,7 @@ export default function FeaturedProducts() {
                       productName: product.name,
                       image: product.images?.[0]?.url,
                       price: product.price,
+                      // productId: product._id,
                     }}
                   />
                 </div>
