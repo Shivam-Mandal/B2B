@@ -96,6 +96,12 @@ const productSchema = new mongoose.Schema(
       required: true,
       index: true
     },
+    subDomain: {
+      type: String,
+      ref: "Company",
+      required: true,
+      unique: true,
+    },
 
     name: {
       type: String,

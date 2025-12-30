@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // { id, role, onboardingCompleted }
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  console.log("AuthContext initialized. User:", user);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");

@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import EnquiryModal from "./EnquiryModal";
@@ -13,6 +14,20 @@ export default function ProductCard({ product }) {
   const { user } = useContext(AuthContext);
 
   const buyerId = user?.id || null;
+
+  const handleEnquiryClick = (e) => {
+    e.stopPropagation(); // Prevent card click
+    setOpenEnquiry(true);
+  };
+
+  const handleCompareClick = (e) => {
+    e.stopPropagation(); // Prevent card click
+    navigate(`/compare/${product._id}`);
+  };
+
+  const handleCardClick = () => {
+    navigate(`/product/${product._id}`);
+  };
 
   return (
     <>
@@ -131,3 +146,4 @@ export default function ProductCard({ product }) {
     </>
   );
 }
+

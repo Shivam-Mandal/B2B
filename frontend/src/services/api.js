@@ -105,5 +105,7 @@ export const updateInquiryStatus = (id, status) => {
 
   return API.put(`/inquiries/${id}/status`, { status });
 };
+export const getProductById = (productId) =>
+  API.get(`/products/${productId}`);  
 
 export default API;
