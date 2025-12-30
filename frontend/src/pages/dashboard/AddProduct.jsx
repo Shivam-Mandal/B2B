@@ -5,16 +5,34 @@ export default function AddProduct() {
   const [form, setForm] = useState({
     name: "",
     category: "",
+    customCategory: "",
     price: "",
     stock: "",
     description: "",
     images: [],
   });
 
+
+  const STATIC_CATEGORIES = [
+    "Electronics",
+    "Industrial Machinery",
+    "Electrical Equipment",
+    "Construction Material",
+    "Automobile Parts",
+    "Medical Equipment",
+    "Textiles",
+    "Agriculture Products",
+    "Chemicals",
+    "Packaging Material",
+    "Office Supplies",
+    "Other",
+  ];
+
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
 
   /* ================= CLEANUP OBJECT URLS ================= */
   useEffect(() => {
@@ -76,6 +94,11 @@ export default function AddProduct() {
     try {
       const formData = new FormData();
 
+      const finalCategory =
+        form.category === "Other"
+          ? form.customCategory
+          : form.category;
+
       Object.entries(form).forEach(([key, value]) => {
         if (key === "images") {
           value.forEach((img) => formData.append("images", img));
@@ -83,7 +106,7 @@ export default function AddProduct() {
           formData.append(key, value);
         }
       });
-
+      formData.set("category", finalCategory);
       await createProduct(formData);
 
       setSuccess("Product added successfully");
@@ -91,6 +114,7 @@ export default function AddProduct() {
       setForm({
         name: "",
         category: "",
+        customCategory: "",
         price: "",
         stock: "",
         description: "",
@@ -169,27 +193,71 @@ export default function AddProduct() {
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Category
             </label>
+
             <div className="relative">
+              {/* Left Icon */}
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                <svg
+                  className="h-5 w-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
                 </svg>
               </div>
-              <input
-                type="text"
+
+              {/* Select */}
+              <select
                 name="category"
                 value={form.category}
                 onChange={handleChange}
-                placeholder="Enter product category"
-                className="w-full border-2 border-gray-300 pl-10 pr-4 py-3 rounded-xl focus:border-blue-500 focus:outline-none transition-colors"
                 required
-              />
+                className="w-full border-2 border-gray-300 pl-10 pr-10 py-3 rounded-xl focus:border-blue-500 focus:outline-none transition-colors bg-white appearance-none"
+              >
+                <option value="">Select Category</option>
+                {STATIC_CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+
+              {/* Custom Arrow */}
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg
+                  className="h-5 w-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </div>
             </div>
+
+            {/* Other Category Input */}
+            {form.category === "Other" && (
+              <input
+                type="text"
+                name="customCategory"
+                value={form.customCategory}
+                placeholder="Enter custom category"
+                onChange={handleChange}
+                className="mt-2 w-full border-2 border-gray-300 p-3 rounded-xl"
+                required
+              />
+            )}
           </div>
 
           {/* Price and Stock Grid */}
@@ -283,11 +351,10 @@ export default function AddProduct() {
                 accept="image/*"
                 onChange={handleImageChange}
                 disabled={form.images.length >= 5}
-                className={`w-full border-2 border-gray-300 pl-10 pr-4 py-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold ${
-                  form.images.length >= 5
-                    ? 'file:bg-gray-100 file:text-gray-400'
-                    : 'file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                className={`w-full border-2 border-gray-300 pl-10 pr-4 py-3 rounded-xl bg-white focus:border-blue-500 focus:outline-none transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold ${form.images.length >= 5
+                  ? 'file:bg-gray-100 file:text-gray-400'
+                  : 'file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100'
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
               />
             </div>
             <p className="text-xs text-gray-500 mt-1">

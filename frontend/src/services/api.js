@@ -79,4 +79,7 @@ export const updateCompany = (data) =>
 export const createCompany = (data) =>
   API.post("/company", data);
 
+export const comparedProductsPrice = (productId) =>
+  API.get(`/products/compare/${productId}`);
+
 export default API;
