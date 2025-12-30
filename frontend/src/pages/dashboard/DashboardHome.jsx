@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { getDashboardSummary, getDashboardActivity } from "../../services/api";
 import { AuthContext } from "../../context/AuthContext";
+import RecentInquiries from "./RecentInquiries";
 
 const StatCard = ({ title, value, icon, color, trend, trendValue }) => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200">
@@ -385,7 +386,7 @@ export default function DashboardHome({ onQuickAction }) {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+          {/* <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Inquiries</h3>
             <div className="text-center py-8 text-gray-500">
               <svg className="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -393,7 +394,8 @@ export default function DashboardHome({ onQuickAction }) {
               </svg>
               <p className="text-sm">Customer inquiries will appear here</p>
             </div>
-          </div>
+          </div> */}
+          <RecentInquiries/>
         </div>
       </div>
     </div>

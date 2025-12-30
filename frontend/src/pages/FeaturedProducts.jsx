@@ -75,12 +75,12 @@ export default function FeaturedProducts() {
                 "
               >
                 {/* Featured Tag */}
-                <div className="absolute -top-3 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+                <div className="absolute -top-3 z-10 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
                   FEATURED
                 </div>
 
                 {/* Card */}
-                <div className="p-2">
+                <div className="p-2 bg-gray-100">
                   <ProductCard
                     product={{
                       ...product,
