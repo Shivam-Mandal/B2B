@@ -37,7 +37,6 @@ const companySchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-
     logo: String,
 
     isVerified: {

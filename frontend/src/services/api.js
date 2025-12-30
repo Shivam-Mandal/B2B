@@ -82,4 +82,7 @@ export const createCompany = (data) =>
 export const comparedProductsPrice = (productId) =>
   API.get(`/products/compare/${productId}`);
 
+export const getProductById = (productId) =>
+  API.get(`/products/${productId}`);  
+
 export default API;

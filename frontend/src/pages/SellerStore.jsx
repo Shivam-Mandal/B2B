@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Search, ShoppingCart, Menu, X, MapPin, Package, Filter, ChevronDown, Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { getOwnerProducts } from "../services/auth.api";
+import { getStoreProducts } from "../services/auth.api";
+import { useParams } from "react-router-dom";
 
 export default function SellerStore() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,11 +24,11 @@ export default function SellerStore() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const productsPerPage = 12;
+  const { subdomain } = useParams();
 
-  if (token === null) {
+  if (!token) {
     navigate('/login');
   }
-
   useEffect(() => {
     const pathSegments = window.location.pathname.split('/');
     const storeIndex = pathSegments.indexOf('store');
@@ -41,12 +42,12 @@ export default function SellerStore() {
   }, []);
 
   useEffect(() => {
-    if (!token) return;
+    if (!subdomain) return;
 
     const fetchProducts = async () => {
       try {
-        const res = await getOwnerProducts();
-        console.log("Fetched products:", res.data);
+        const res = await getStoreProducts(subdomain);
+        // console.log("Fetched products:", res.data);
         if (Array.isArray(res.data.data)) {
           setProducts(res.data.data);
         } else if (res.data.data) {
@@ -657,8 +658,8 @@ export default function SellerStore() {
                               key={page}
                               onClick={() => setCurrentPage(page)}
                               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${currentPage === page
-                                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                                  : 'border-2 border-gray-300 hover:bg-gray-50'
+                                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                                : 'border-2 border-gray-300 hover:bg-gray-50'
                                 }`}
                             >
                               {page}
