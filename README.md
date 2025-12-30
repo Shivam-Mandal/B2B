@@ -80,7 +80,7 @@ Before writing production code, the application UI and user flow were planned us
 This workflow follows **industry-standard frontend practice**:
 
 > *Design first → validate layout → then build scalable UI*
-> <img width="1052" height="1159" alt="image" src="https://github.com/user-attachments/assets/afa08cd4-b7d9-4a26-ba91-6a38d7ff2fc7" />
+> <img width="2112" height="4488" alt="B2B webpage" src="https://github.com/user-attachments/assets/1339b332-a2c0-4b78-96d5-413de9472da5" />
 
 
 ---
