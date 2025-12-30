@@ -197,7 +197,7 @@ export default function Profile() {
                                             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors group"
                                         >
                                             <span className="font-medium text-sm">
-                                                http://localhost:5173/store/{company.subDomain
+                                                {import.meta.env.VITE_LINK}/store/{company.subDomain
                                                     .toLowerCase()
                                                     .replace(/\s+/g, "-")}
                                             </span>

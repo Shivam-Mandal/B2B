@@ -285,7 +285,7 @@ export default function ProductDetailsPage() {
                     </div>
                 )}
                 <Link
-                    to={`http://localhost:5173/store/${product.subDomain}`}
+                    to={`${import.meta.env.VITE_LINK}/store/${product.subDomain}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-blue-600 hover:underline mt-2"
