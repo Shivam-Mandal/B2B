@@ -8,7 +8,8 @@ import {
   updateProduct,
   deleteProduct,
   redirectToSeller,
-  getProductsByOwner
+  getProductsByOwner,
+  getProductById
 } from "../controllers/product.controller.js";
 import { compareProductPrices } from "../controllers/compare.controller.js";
 
@@ -25,8 +26,10 @@ router.get("/random", getRandomProducts);
 router.get("/", filterProducts);
 router.get("/category/:category", getProductsByCategory);
 router.get("/:id/redirect", redirectToSeller);
-router.get("/owner",requireAuth,getProductsByOwner);
+// router.get("/:subdomain",requireAuth,getProductsByOwner);
+router.get("/store/:subdomain",requireAuth, getProductsByOwner);
 router.get("/compare/:productId", requireAuth, compareProductPrices);
+router.get("/:productId", requireAuth, getProductById);
 
 
 /* ================= SELLER ================= */

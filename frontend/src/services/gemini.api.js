@@ -28,28 +28,11 @@ API.interceptors.response.use(
   }
 );
 
-// ================= AUTH APIs =================
-export const loginUser = (data) =>
-  API.post("/users/login", data);
 
-export const registerUser = (data) =>
-  API.post("/users/register", data);
+export const getGeminiProductDetails = (product) =>
+  API.post("/gemini/product-details", {
+    productId: product._id,
+  });
 
-// ================= USER APIs =================
-export const getCurrentUser = () =>
-  API.get("/users/me");
-
-// ================= PRODUCT APIs =================
-
-export const getStoreProducts = (subdomain) =>
-  API.get(`/products/store/${subdomain}`);
-
-
-// ================= COMPANY APIs =================
-export const createCompany = (data) =>
-  API.post("/company", data);
-
-export const getMyCompany = () =>
-  API.get("/company/me");
 
 export default API;

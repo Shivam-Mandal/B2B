@@ -9,7 +9,10 @@ import SellerDashboard from "./pages/SellerDashboard";
 import BecomeSeller from "./pages/BeomeSeller";
 import Profile from "./pages/Profile";
 import SellerStore from "./pages/SellerStore";
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./components/MainLayout";
+import ProductDetailsPage from './pages/ProductDetailsPage';
+
+
 
 export default function App() {
   return (
@@ -27,10 +30,11 @@ export default function App() {
           <Route path="/seller/dashboard" element={<SellerDashboard />} />
           <Route path="/become-seller" element={<BecomeSeller />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/product/:id" element={<ProductDetailsPage />} />
         </Route>
 
         {/* 🏪 Route WITHOUT Navbar */}
-        <Route path="/store/:slug" element={<SellerStore />} />
+        <Route path="/store/:subdomain" element={<SellerStore />} />
 
       </Routes>
     </BrowserRouter>

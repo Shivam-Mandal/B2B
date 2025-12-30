@@ -9,6 +9,8 @@ export const upsertCompany = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    
+
     const {
       companyName,
       businessType,
@@ -89,7 +91,7 @@ export const getMyCompany = async (req, res) => {
 };
 
 /**
- *  UPDATE COMPANY DETAILS
+ * ✏️ UPDATE COMPANY DETAILS
  * PUT /api/v1/company/me
  */
 export const updateCompany = async (req, res) => {

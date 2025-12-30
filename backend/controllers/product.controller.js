@@ -42,6 +42,7 @@ export const createProduct = async (req, res) => {
     // ✅ CREATE PRODUCT (FIXED)
     const product = await Product.create({
       ...req.body,
+      subDomain: company.subDomain, // 🔥 REQUIRED FIX
       owner: userId,              // 🔥 REQUIRED FIX
       sellerCompany: company._id, // 🔥 REQUIRED
       images,
@@ -332,10 +333,9 @@ export const redirectToSeller = async (req, res) => {
 export const getProductsByOwner  = async (req, res) => {
   try {
     // 🔑 comes from JWT
-    const ownerId = req.user.id;
-    // console.log("Owner ID:", ownerId);
+    const {subdomain} = req.params;
 
-    if (!ownerId) {
+    if (!subdomain) {
       return res.status(401).json({
         success: false,
         message: "Unauthorized: owner not found",
@@ -343,7 +343,7 @@ export const getProductsByOwner  = async (req, res) => {
     }
 
     const products = await Product.find({
-      owner: ownerId,
+      subDomain: subdomain,
       isActive: true,
     }).sort("-createdAt");
 
@@ -359,3 +359,47 @@ export const getProductsByOwner  = async (req, res) => {
     });
   }
 };
+
+
+/**
+ * ================================
+ * GET PRODUCT DETAILS BY PRODUCT ID
+ * ================================
+ * @route   GET /api/v1/products/:productId
+ * @access  Protected (Admin / Internal)
+ */
+export const getProductById = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    if (!productId) {
+      return res.status(400).json({
+        success: false,
+        message: "Product ID is required",
+      });
+    }
+
+    const product = await Product.findOne({
+      _id: productId,
+      isActive: true,
+    });
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+

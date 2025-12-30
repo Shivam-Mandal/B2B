@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import EnquiryModal from "./EnquiryModal";
@@ -6,14 +7,31 @@ export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const [openEnquiry, setOpenEnquiry] = useState(false);
 
+  const handleEnquiryClick = (e) => {
+    e.stopPropagation(); // Prevent card click
+    setOpenEnquiry(true);
+  };
+
+  const handleCompareClick = (e) => {
+    e.stopPropagation(); // Prevent card click
+    navigate(`/compare/${product._id}`);
+  };
+
+  const handleCardClick = () => {
+    navigate(`/product/${product._id}`);
+  };
+
   return (
     <>
-      <div className="rounded-lg p-4 bg-white group">
+      <div 
+        className="rounded-lg p-4 bg-white group cursor-pointer hover:shadow-lg transition-shadow"
+        onClick={handleCardClick}
+      >
         
         {/* Image */}
         <div className="overflow-hidden rounded-md mb-3">
           <img
-            src={product.image || "https://via.placeholder.com/150"}
+            src={product.images?.[0].url || product.image || "https://via.placeholder.com/150"}
             alt={product.productName}
             className="
               h-40 w-full object-contain
@@ -55,14 +73,14 @@ export default function ProductCard({ product }) {
         {/* Buttons Row */}
         <div className="flex gap-2">
           <button
-            onClick={() => setOpenEnquiry(true)}
+            onClick={handleEnquiryClick}
             className="flex-1 border border-blue-600 text-blue-600 py-2 rounded text-sm hover:bg-blue-50"
           >
             Enquiry
           </button>
 
           <button
-            onClick={() => navigate(`/compare/${product._id}`)}
+            onClick={handleCompareClick}
             className="flex-1 bg-blue-600 text-white py-2 rounded text-sm hover:bg-blue-700"
           >
             Compare
@@ -79,3 +97,4 @@ export default function ProductCard({ product }) {
     </>
   );
 }
+
