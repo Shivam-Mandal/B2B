@@ -71,7 +71,7 @@ export default function FeaturedProducts() {
                   hover:border-blue-400
                   hover:shadow-xl
                   transition-all duration-300
-                  bg-gradient-to-b from-white to-gray-50
+                  bg-linear-to-b from-white to-gray-50
                 "
               >
                 {/* Featured Tag */}

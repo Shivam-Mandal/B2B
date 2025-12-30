@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PriceTable from "../components/PriceTable";
 import { comparedProductsPrice } from "../services/api";
 import { HiOutlineCube, HiOutlineLocationMarker } from "react-icons/hi";
 import { FaBoxes } from "react-icons/fa";
-
+import EnquiryModal from "../components/EnquiryModal";
+import { AuthContext } from "../context/AuthContext";
 
 export default function ProductCompare() {
   const { id } = useParams();
@@ -13,7 +14,10 @@ export default function ProductCompare() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
+  const [openEnquiry, setOpenEnquiry] = useState(false);
 
+  const { user } = useContext(AuthContext);
+  const buyerId = user?.id || null;
 
   useEffect(() => {
     let mounted = true;
@@ -32,6 +36,7 @@ export default function ProductCompare() {
     fetchComparison();
     return () => (mounted = false);
   }, [id]);
+
 
   /* ===================== STATES ===================== */
 
@@ -67,15 +72,15 @@ export default function ProductCompare() {
     );
   }
 
-  console.log("Comparison Data:", data);
-
+  
   const {
     originalProduct,
     alternatives,
     totalAlternatives,
     priceRange,
   } = data;
-
+  
+  // console.log("Product ID", originalProduct.id);
   /* ===================== UI ===================== */
 
   return (
@@ -237,13 +242,32 @@ export default function ProductCompare() {
 
             {/* ACTIONS */}
             <div className="flex flex-wrap gap-4 pt-4">
-              <button className="bg-blue-600 hover:bg-blue-700 active:scale-95 transition text-white px-8 py-3 rounded-xl font-semibold shadow-md">
-                Contact Seller
-              </button>
+             <button
+  onClick={() => setOpenEnquiry(true)}
+  className="bg-blue-600 hover:bg-blue-700 active:scale-95 transition text-white px-8 py-3 rounded-xl font-semibold shadow-md"
+>
+  Contact Seller
+</button>
 
-              <button className="bg-gray-100 hover:bg-gray-200 active:scale-95 transition px-8 py-3 rounded-xl font-semibold text-gray-800">
-                Add to Inquiry
-              </button>
+
+              <button
+  onClick={() => {
+    const sellerSlug =
+      originalProduct.seller.subDomain ||
+      originalProduct.seller.companyName
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+
+    window.open(
+      `/store/${sellerSlug}`,
+      "_blank"
+    );
+  }}
+  className="bg-gray-100 hover:bg-gray-200 active:scale-95 transition px-8 py-3 rounded-xl font-semibold text-gray-800"
+>
+  Visit Seller Store
+</button>
+
             </div>
 
           </div>
@@ -281,6 +305,14 @@ export default function ProductCompare() {
           No other sellers found for this product.
         </p>
       )}
+
+      <EnquiryModal
+  open={openEnquiry}
+  onClose={() => setOpenEnquiry(false)}
+  productId={originalProduct.id}
+  buyerId={buyerId}
+/>
+
     </div>
   );
 }
