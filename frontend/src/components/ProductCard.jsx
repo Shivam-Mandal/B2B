@@ -13,6 +13,7 @@ export default function ProductCard({ product }) {
   const [openEnquiry, setOpenEnquiry] = useState(false);
   const { user } = useContext(AuthContext);
 
+  console.log("ProductID in ProductCard:", product.Id);
   const buyerId = user?.id || null;
 
   const handleEnquiryClick = (e) => {
@@ -33,6 +34,7 @@ export default function ProductCard({ product }) {
     <>
       {/* CARD */}
       <div
+        // onClick={handleCardClick}
         className="
           bg-white rounded-xl border border-gray-200
           shadow-sm hover:shadow-md
@@ -40,76 +42,77 @@ export default function ProductCard({ product }) {
           flex flex-col overflow-hidden
         "
       >
-        {/* IMAGE */}
-        <div className="relative h-40 bg-gray-50 flex items-center justify-center">
-          <img
-            src={product.image || "https://via.placeholder.com/300"}
-            alt={product.productName}
-            className="
+        <div className="" onClick={handleCardClick}>
+          {/* IMAGE */}
+          <div className="relative h-40 bg-gray-50 flex items-center justify-center">
+            <img
+              src={product.image || "https://via.placeholder.com/300"}
+              alt={product.productName}
+              className="
               max-h-full max-w-full object-contain
               transition-transform duration-300
               group-hover:scale-105
             "
-          />
-        </div>
+            />
+          </div>
 
-        {/* CONTENT */}
-        <div className="p-4 flex flex-col flex-1">
-          {/* PRODUCT NAME */}
-          <h3 className="font-semibold text-sm text-gray-900 line-clamp-2 mb-1">
-            {product.productName}
-          </h3>
+          {/* CONTENT */}
+          <div className="p-4 flex flex-col flex-1">
+            {/* PRODUCT NAME */}
+            <h3 className="font-semibold text-sm text-gray-900 line-clamp-2 mb-1">
+              {product.productName}
+            </h3>
 
-          {/* DESCRIPTION */}
-          {product.description && (
-            <p className="text-xs text-gray-600 mb-2 line-clamp-2">
-              {product.description}
-            </p>
-          )}
+            {/* DESCRIPTION */}
+            {product.description && (
+              <p className="text-xs text-gray-600 mb-2 line-clamp-2">
+                {product.description}
+              </p>
+            )}
 
-          {/* RATING */}
-          {product.rating && (
-            <div className="flex items-center gap-2 mb-2">
-              <span className="bg-green-600 text-white text-[11px] px-2 py-0.5 rounded">
-                {product.rating} ★
-              </span>
-              <span className="text-xs text-gray-500">
-                ({product.reviews || 0})
-              </span>
-            </div>
-          )}
-
-          {/* SELLER + LOCATION */}
-          <div className="text-xs text-gray-500 space-y-1 mb-3">
-            {product.seller && (
-              <div className="flex items-center gap-1">
-                <HiOutlineOfficeBuilding className="text-gray-400" />
-                <span className="truncate">{product.seller}</span>
+            {/* RATING */}
+            {product.rating && (
+              <div className="flex items-center gap-2 mb-2">
+                <span className="bg-green-600 text-white text-[11px] px-2 py-0.5 rounded">
+                  {product.rating} ★
+                </span>
+                <span className="text-xs text-gray-500">
+                  ({product.reviews || 0})
+                </span>
               </div>
             )}
-            {product.location?.city && (
-              <div className="flex items-center gap-1">
-                <HiOutlineLocationMarker className="text-gray-400" />
-                <span>{product.location.city}</span>
+
+            {/* SELLER + LOCATION */}
+            <div className="text-xs text-gray-500 space-y-1 mb-3">
+              {product.seller && (
+                <div className="flex items-center gap-1">
+                  <HiOutlineOfficeBuilding className="text-gray-400" />
+                  <span className="truncate">{product.seller}</span>
+                </div>
+              )}
+              {product.location?.city && (
+                <div className="flex items-center gap-1">
+                  <HiOutlineLocationMarker className="text-gray-400" />
+                  <span>{product.location.city}</span>
+                </div>
+              )}
+            </div>
+
+            {/* PRICE */}
+            {product.price && (
+              <div className="mt-auto mb-3">
+                <p className="text-sm font-semibold text-gray-900">
+                  ₹{product.price}
+                  {product.moq && (
+                    <span className="text-xs text-gray-500 font-normal">
+                      {" "} / MOQ {product.moq}
+                    </span>
+                  )}
+                </p>
               </div>
             )}
           </div>
-
-          {/* PRICE */}
-          {product.price && (
-            <div className="mt-auto mb-3">
-              <p className="text-sm font-semibold text-gray-900">
-                ₹{product.price}
-                {product.moq && (
-                  <span className="text-xs text-gray-500 font-normal">
-                    {" "} / MOQ {product.moq}
-                  </span>
-                )}
-              </p>
-            </div>
-          )}
         </div>
-
         {/* ACTIONS */}
         <div className=" border-t-gray-100 bg-gray-100 p-3 flex gap-2">
           <button

@@ -300,6 +300,7 @@ export default function ProductDetailsPage() {
                 open={openEnquiry}
                 onClose={() => setOpenEnquiry(false)}
                 productName={product.name}
+                productId={product._id}
             />
         </div>
     );
