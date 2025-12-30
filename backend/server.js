@@ -7,6 +7,7 @@ import userRoutes from './routes/user.route.js';
 import companyRoutes from './routes/seller.route.js';
 import productRoutes from './routes/product.route.js';
 import dashboardRoutes from './routes/dashboard.route.js';
+import inquiryRoutes from './routes/inquiry.route.js';
 import geminiRoutes from './routes/gemini.route.js';
 
 // Load env variables
@@ -35,6 +36,7 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/company', companyRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/seller/dashboard', dashboardRoutes);
+app.use('/api/v1/inquiries', inquiryRoutes);
 app.use("/api/v1/gemini", geminiRoutes);
 
 

@@ -82,6 +82,29 @@ export const createCompany = (data) =>
 export const comparedProductsPrice = (productId) =>
   API.get(`/products/compare/${productId}`);
 
+export const submitInquiry = (payload) => {
+  // return API.post("/inquiries", payload, {
+  //   withCredentials: true,
+  // });
+  return API.post('/inquiries', payload);
+};
+
+export const getSellerInquiries = () => {
+  // return API.get("/inquiries/seller", {
+  //   withCredentials: true,
+  // });
+  return API.get('/inquiries/seller');
+};
+
+export const updateInquiryStatus = (id, status) => {
+  // return API.put(
+  //   `/inquiries/${id}/status`,
+  //   { status },
+  //   { withCredentials: true }
+  // );
+
+  return API.put(`/inquiries/${id}/status`, { status });
+};
 export const getProductById = (productId) =>
   API.get(`/products/${productId}`);  
 
