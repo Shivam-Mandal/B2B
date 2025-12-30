@@ -27,6 +27,9 @@ export default function ProductCard({ product }) {
         <h3 className="font-semibold text-sm mb-1 line-clamp-2">
           {product.productName}
         </h3>
+        <h3 className="font-semibold text-sm mb-1 line-clamp-2">
+          {product.price ? `Rs.${product.price}` : "Price on request"}
+        </h3>
 
         {/* Rating */}
         {product.rating && (
