@@ -10,6 +10,7 @@ import {
   redirectToSeller,
   getProductsByOwner
 } from "../controllers/product.controller.js";
+import { compareProductPrices } from "../controllers/compare.controller.js";
 
 import { requireAuth } from "../middlewares/auth.middleware.js";
 import { isSeller } from "../middlewares/role.middleware.js";
@@ -25,6 +26,7 @@ router.get("/", filterProducts);
 router.get("/category/:category", getProductsByCategory);
 router.get("/:id/redirect", redirectToSeller);
 router.get("/owner",requireAuth,getProductsByOwner);
+router.get("/compare/:productId", requireAuth, compareProductPrices);
 
 
 /* ================= SELLER ================= */
