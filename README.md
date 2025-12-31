@@ -8,7 +8,7 @@ This repository contains a **full-stack B2B multi-vendor price comparison web ap
 
 The platform enables users to **search products, compare prices from multiple sellers, view seller-specific product pages, and send enquiries directly to sellers**, all within a single unified system.
 
-> 🚀 **Live Demo**: *((https://b2-b-weld.vercel.app/)*
+> 🚀 **Live Demo**: *(https://b2-b-weld.vercel.app/)*
 
 ---
 
